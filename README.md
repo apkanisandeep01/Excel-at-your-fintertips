@@ -19,3 +19,6 @@ Built with ❤️ by **Apkani Sandeep Kumar**, this tool is perfect for data ent
 - **User-Friendly**: A sleek sidebar with controls and a dynamic view that shows results in real-time.
 - **Restart & Refresh**: Made a mess? Hit "Restart" to wipe the slate clean or "Refresh" to reprocess your files.
 - **Downloadable Results**: Export your combined, split, dropped, or joined data as CSVs with one click.
+
+  [App link](https://excel-at-your-fintertips.streamlit.app/)
+  [Portfolio](https://www.datascienceportfol.io/apkanisandeep)
