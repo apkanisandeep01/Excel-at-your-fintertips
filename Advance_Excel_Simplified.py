@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from io import BytesIO
 
 # Dependency checks
 try:
@@ -107,12 +108,16 @@ if st.session_state.dataframes:
                 st.write(f"Files Combined: {len(st.session_state.dataframes)}")
                 st.write(f"Rows: {combined_df.shape[0]} | Columns: {combined_df.shape[1]}")
                 st.dataframe(combined_df)
-                csv = combined_df.to_csv(index=False)
+                # Convert to Excel
+                output = BytesIO()
+                with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                    combined_df.to_excel(writer, index=False)
+                excel_data = output.getvalue()
                 st.download_button(
-                    label="Download Combined CSV",
-                    data=csv,
-                    file_name="combined_data.csv",
-                    mime="text/csv"
+                    label="Download Combined Excel",
+                    data=excel_data,
+                    file_name="combined_data.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
             except Exception as e:
                 st.error(f"Error combining files: {str(e)}")
@@ -143,12 +148,16 @@ if st.session_state.dataframes:
                     split_df = df_to_split[df_to_split[column_to_split] == value]
                     st.write(f"Data for {column_to_split} = {value} (Rows: {split_df.shape[0]}):")
                     st.dataframe(split_df)
-                    csv = split_df.to_csv(index=False)
+                    # Convert to Excel
+                    output = BytesIO()
+                    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                        split_df.to_excel(writer, index=False)
+                    excel_data = output.getvalue()
                     st.download_button(
-                        label=f"Download {value} CSV",
-                        data=csv,
-                        file_name=f"split_{column_to_split}_{value}.csv",
-                        mime="text/csv"
+                        label=f"Download {value} Excel",
+                        data=excel_data,
+                        file_name=f"split_{column_to_split}_{value}.xlsx",
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     )
                     st.write("---")
 
@@ -177,12 +186,16 @@ if st.session_state.dataframes:
                 modified_df = df_to_modify.drop(columns=columns_to_drop)
                 st.write(f"Rows: {modified_df.shape[0]} | Columns: {modified_df.shape[1]}")
                 st.dataframe(modified_df)
-                csv = modified_df.to_csv(index=False)
+                # Convert to Excel
+                output = BytesIO()
+                with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                    modified_df.to_excel(writer, index=False)
+                excel_data = output.getvalue()
                 st.download_button(
-                    label="Download Modified CSV",
-                    data=csv,
-                    file_name=f"modified_{st.session_state.uploaded_files[df_index].name.split('.')[0]}.csv",
-                    mime="text/csv"
+                    label="Download Modified Excel",
+                    data=excel_data,
+                    file_name=f"modified_{st.session_state.uploaded_files[df_index].name.split('.')[0]}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
             except Exception as e:
                 st.error(f"Error dropping columns: {str(e)}")
@@ -215,12 +228,16 @@ if st.session_state.dataframes:
                     else:
                         st.write(f"Rows: {merged_df.shape[0]} | Columns: {merged_df.shape[1]}")
                         st.dataframe(merged_df)
-                        csv = merged_df.to_csv(index=False)
+                        # Convert to Excel
+                        output = BytesIO()
+                        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                            merged_df.to_excel(writer, index=False)
+                        excel_data = output.getvalue()
                         st.download_button(
-                            label="Download Joined CSV",
-                            data=csv,
-                            file_name="joined_data.csv",
-                            mime="text/csv"
+                            label="Download Joined Excel",
+                            data=excel_data,
+                            file_name="joined_data.xlsx",
+                            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         )
                 except ValueError as e:
                     st.error(f"Join failed. Check column data types: {str(e)}")
