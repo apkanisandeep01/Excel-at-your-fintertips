@@ -1,6 +1,13 @@
 import streamlit as st
 import pandas as pd
 
+# Check for openpyxl dependency
+try:
+    import openpyxl
+except ImportError:
+    st.error("The 'openpyxl' library is missing. Please install it using 'pip install openpyxl' and restart the app.")
+    st.stop()
+    
 # Initialize session state
 if 'uploaded_files' not in st.session_state:
     st.session_state.uploaded_files = []
