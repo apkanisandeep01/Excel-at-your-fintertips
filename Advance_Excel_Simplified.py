@@ -4,6 +4,12 @@ import pandas as pd
 # Check for openpyxl dependency
 try:
     import openpyxl
+    from packaging import version
+    required_version = "3.1.0"
+    installed_version = openpyxl.__version__
+    if version.parse(installed_version) < version.parse(required_version):
+        st.error(f"Pandas requires openpyxl version {required_version} or newer. You have {installed_version}. Please upgrade using 'pip install --upgrade openpyxl'.")
+        st.stop()
 except ImportError:
     st.error("The 'openpyxl' library is missing. Please install it using 'pip install openpyxl' and restart the app.")
     st.stop()
