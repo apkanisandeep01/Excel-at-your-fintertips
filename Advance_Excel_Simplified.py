@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
+# Set page config to expand sidebar by default
+st.set_page_config(initial_sidebar_state="expanded")
+
 # Dependency checks
 try:
     import openpyxl
